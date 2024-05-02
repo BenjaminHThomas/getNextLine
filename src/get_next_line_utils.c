@@ -6,13 +6,13 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 14:28:09 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/02 14:58:22 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/02 16:39:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		in(char *s, int i)
+int	in(char *s, int i)
 {
 	while (*s)
 	{
@@ -34,20 +34,20 @@ char	*get_substr(const char *s, int linenum)
 	prev_pos = 0;
 	while (s[++i] && linenum)
 	{
-		if (s[i] == '\n')
+		if (in("\n\r", s[i]))
 		{
 			linenum--;
 			if (linenum)
 				prev_pos = i;
 		}
 	}
-	len = i - prev_pos;
+	len = i - prev_pos - 1;
 	word = (char *)malloc(len + 1);
 	if (!word)
 		return (NULL);
 	i = -1;
-	while (++prev_pos < len)
-		word[++i] = s[prev_pos];
+	while (++i < len)
+		word[i] = s[prev_pos + i];
 	word[len] = 0;
 	return (word);
 }
