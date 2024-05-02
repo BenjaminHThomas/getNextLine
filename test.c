@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/02 14:34:54 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/02 14:59:31 by bthomas          ###   ########.fr       */
+/*   Created: 2024/05/02 15:40:00 by bthomas           #+#    #+#             */
+/*   Updated: 2024/05/02 16:05:15 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_GET_NEXT_LINE_H
-# define FT_GET_NEXT_LINE_H
+#include "includes/get_next_line.h"
+#include <stdio.h>
+#include <fcntl.h>
 
-# include <unistd.h>
-# include <stdlib.h>
+int	main(int ac, char **av)
+{
+	int		fd;
+	char	*ret;
 
-char	*get_next_line(int fd);
-char	*get_substr(const char *s, int linenum);
-
-#endif
+	if (ac < 1)
+		return (1);
+	fd = open(av[1], O_RDONLY);
+	ret = get_next_line(fd);
+	printf("%s", ret);
+	free(ret);
+	return (0);
+}
