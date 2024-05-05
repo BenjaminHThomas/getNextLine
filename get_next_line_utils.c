@@ -6,22 +6,34 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:17:49 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/05 18:24:12 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/05 19:05:50 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+void	ft_bzero(void *p, size_t size)
+{
+	unsigned char	*a;
+
+	a = p;
+	while (size--)
+		*a++ = 0;
+}
+
 int	contains_nl(char *s)
 {
-	int	i;
+	char	*ps;
 
-	if (NULL == s)
+	if (!s)
 		return (0);
-	i = -1;
-	while (s[++i])
-		if (s[i] == '\n')
+	ps = s;
+	while (*ps)
+	{
+		if (*ps == '\n')
 			return (1);
+		ps++;
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:59:46 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/05 18:44:01 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/05 19:08:09 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ static char	*get_line(char *text)
 	linestr = (char *)malloc(linelen + 1);
 	if (!linestr)
 		return (NULL);
+	ft_bzero(linestr, linelen + 1);
 	i = -1;
 	while (++i <= linelen)
 		linestr[i] = text[i];
-	linestr[i] = 0;
 	return (linestr);
 }
 
@@ -60,6 +60,7 @@ static void	read_file(int fd, char *text)
 		buf = malloc(BUFFER_SIZE + 1);
 		if (!buf)
 			return ;
+		ft_bzero(buf, BUFFER_SIZE + 1);
 		r = read(fd, buf, BUFFER_SIZE);
 		if (!r)
 		{
@@ -78,6 +79,8 @@ char	*get_next_line(int fd)
 	char		*linestr;
 
 	read_file(fd, text);
+	if (!text[0])
+		return (NULL);
 	linestr = get_line(text);
 	clean_text(text);
 	return (linestr);
