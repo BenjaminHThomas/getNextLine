@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 17:12:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/05 19:00:23 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/05 19:26:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av)
 		return (1);
 	fd = open(av[1], O_RDONLY);
 	i = -1;
-	while (++i < 5)
+	while (++i < 10)
 	{
 		line = get_next_line(fd);
 		if (line && *line)

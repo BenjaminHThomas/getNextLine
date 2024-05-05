@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:59:46 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/05 19:18:22 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/05 19:29:27 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static char	*get_line(char *text)
 	linelen = 0;
 	while (text[linelen] && text[linelen] != '\n')
 		linelen++;
-	linestr = (char *)malloc(linelen + 1);
+	linestr = (char *)malloc(linelen + 2);
 	if (!linestr)
 		return (NULL);
-	ft_bzero(linestr, linelen + 1);
+	ft_bzero(linestr, linelen + 2);
 	i = -1;
 	while (++i <= linelen)
 		linestr[i] = text[i];
@@ -81,8 +81,6 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, text, 0) < 0)
 		return (NULL);
 	read_file(fd, text);
-	if (!text[0])
-		return (NULL);
 	linestr = get_line(text);
 	clean_text(text);
 	return (linestr);
