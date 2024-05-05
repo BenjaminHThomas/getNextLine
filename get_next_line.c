@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:59:46 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/05 19:08:09 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/05 19:18:22 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ char	*get_next_line(int fd)
 	static char	text[1 << 12];
 	char		*linestr;
 
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, text, 0) < 0)
+		return (NULL);
 	read_file(fd, text);
 	if (!text[0])
 		return (NULL);
