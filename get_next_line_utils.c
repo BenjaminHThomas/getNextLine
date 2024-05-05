@@ -5,49 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/02 14:28:09 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/02 16:39:52 by bthomas          ###   ########.fr       */
+/*   Created: 2024/05/05 15:17:49 by bthomas           #+#    #+#             */
+/*   Updated: 2024/05/05 18:24:12 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	in(char *s, int i)
+int	contains_nl(char *s)
 {
-	while (*s)
-	{
-		if (*s == i)
+	int	i;
+
+	if (NULL == s)
+		return (0);
+	i = -1;
+	while (s[++i])
+		if (s[i] == '\n')
 			return (1);
-		s++;
-	}
 	return (0);
 }
 
-char	*get_substr(const char *s, int linenum)
+char	*ft_strdup(const char *s)
 {
-	char	*word;
-	int		i;
-	int		prev_pos;
 	int		len;
+	char	*cpy;
 
-	i = -1;
-	prev_pos = 0;
-	while (s[++i] && linenum)
+	len = 0;
+	while (s[len])
+		len++;
+	cpy = malloc(len + 1 * sizeof(char));
+	cpy[len] = 0;
+	while (len--)
+		cpy[len] = s[len];
+	return (cpy);
+}
+
+void	clean_text(char *text)
+{
+	char	*temp;
+	char	*cleaned;
+	int		i;
+
+	temp = text;
+	while (*temp && *temp != '\n')
+		temp++;
+	if (*temp == '\n')
+		temp++;
+	cleaned = ft_strdup(temp);
+	if (cleaned)
 	{
-		if (in("\n\r", s[i]))
-		{
-			linenum--;
-			if (linenum)
-				prev_pos = i;
-		}
+		i = -1;
+		while (cleaned[++i])
+			text[i] = cleaned[i];
+		text[i] = 0;
+		free(cleaned);
 	}
-	len = i - prev_pos - 1;
-	word = (char *)malloc(len + 1);
-	if (!word)
-		return (NULL);
-	i = -1;
-	while (++i < len)
-		word[i] = s[prev_pos + i];
-	word[len] = 0;
-	return (word);
 }
