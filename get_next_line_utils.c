@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:17:49 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/06 14:24:16 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/06 18:55:08 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	clean_text(char **text)
 	char	*cleaned;
 	int		i;
 
+	if (!*text)
+		return ;
 	temp = *text;
 	while (*temp && *temp != '\n')
 		temp++;
