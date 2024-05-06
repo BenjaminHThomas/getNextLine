@@ -6,22 +6,22 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:59:46 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/06 13:21:32 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/06 15:48:41 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*get_line(char *text)
+static char	*get_line(char **text)
 {
 	char	*linestr;
 	int		linelen;
 	int		i;
 
-	if (!text || !*text)
+	if (!*text || !*(*text))
 		return (NULL);
 	linelen = 0;
-	while (text[linelen] && text[linelen] != '\n')
+	while ((*text)[linelen] && (*text)[linelen] != '\n')
 		linelen++;
 	linestr = (char *)malloc(linelen + 2);
 	if (!linestr)
@@ -29,28 +29,36 @@ static char	*get_line(char *text)
 	ft_bzero(linestr, linelen + 2);
 	i = -1;
 	while (++i <= linelen)
-		linestr[i] = text[i];
+		linestr[i] = (*text)[i];
 	return (linestr);
 }
 
-static void	append(char	*text, char *buf)
+static void	append(char **text, char *buf)
 {
-	int	len;
-	int	i;
+	char	*temp;
+	int		len;
+	int		i;
 
-	if (!text || !buf)
-		return ;
+	if (!buf)
+		return (free(*text));
+	temp = *text;
+	*text = (char *)malloc(ft_strlen(temp) + BUFFER_SIZE + 1);
+	if (!*text)
+		return (free(temp), free(buf));
+	ft_bzero(*text, ft_strlen(temp) + BUFFER_SIZE + 1);
 	len = 0;
-	while (text[len])
+	while (temp && temp[len])
+	{
+		(*text)[len] = temp[len];
 		len++;
+	}
 	i = -1;
-	while (buf[++i] && i <= (1 << 15))
-		text[len + i] = buf[i];
-	text[len + i] = 0;
-	free(buf);
+	while (buf[++i])
+		(*text)[len + i] = buf[i];
+	return (free(buf), free(temp));
 }
 
-static void	read_file(int fd, char *text)
+static void	read_file(int fd, char **text)
 {
 	char	*buf;
 	int		r;
@@ -65,10 +73,7 @@ static void	read_file(int fd, char *text)
 		ft_bzero(buf, BUFFER_SIZE + 1);
 		r = read(fd, buf, BUFFER_SIZE);
 		if (!r)
-		{
-			free(buf);
-			return ;
-		}
+			return (free(buf));
 		nl_bool = contains_nl(buf);
 		append(text, buf);
 	}
@@ -76,14 +81,16 @@ static void	read_file(int fd, char *text)
 
 char	*get_next_line(int fd)
 {
-	static char	text[1 << 15];
+	static char	*text;
 	char		*linestr;
 
 	linestr = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, text, 0) < 0)
 		return (linestr);
-	read_file(fd, text);
-	linestr = get_line(text);
-	clean_text(text);
+	read_file(fd, &text);
+	if (!text)
+		return (NULL);
+	linestr = get_line(&text);
+	clean_text(&text);
 	return (linestr);
 }

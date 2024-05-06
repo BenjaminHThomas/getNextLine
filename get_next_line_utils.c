@@ -6,11 +6,21 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:17:49 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/05 19:05:50 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/06 14:24:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	ft_strlen(char *s)
+{
+	int	len;
+
+	len = 0;
+	while (s && s[len])
+		len++;
+	return (len);
+}
 
 void	ft_bzero(void *p, size_t size)
 {
@@ -52,13 +62,13 @@ char	*ft_strdup(const char *s)
 	return (cpy);
 }
 
-void	clean_text(char *text)
+void	clean_text(char **text)
 {
 	char	*temp;
 	char	*cleaned;
 	int		i;
 
-	temp = text;
+	temp = *text;
 	while (*temp && *temp != '\n')
 		temp++;
 	if (*temp == '\n')
@@ -68,8 +78,8 @@ void	clean_text(char *text)
 	{
 		i = -1;
 		while (cleaned[++i])
-			text[i] = cleaned[i];
-		text[i] = 0;
+			(*text)[i] = cleaned[i];
+		(*text)[i] = 0;
 		free(cleaned);
 	}
 }
