@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:59:46 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/06 13:15:05 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/06 13:21:32 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*get_line(char *text)
 	int		linelen;
 	int		i;
 
-	if (!text)
+	if (!text || !*text)
 		return (NULL);
 	linelen = 0;
 	while (text[linelen] && text[linelen] != '\n')
@@ -70,7 +70,6 @@ static void	read_file(int fd, char *text)
 			return ;
 		}
 		nl_bool = contains_nl(buf);
-		buf[r] = 0;
 		append(text, buf);
 	}
 }
