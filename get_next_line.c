@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:59:46 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/05 19:29:27 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/06 13:15:05 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ static void	append(char	*text, char *buf)
 	int	len;
 	int	i;
 
+	if (!text || !buf)
+		return ;
 	len = 0;
 	while (text[len])
 		len++;
 	i = -1;
-	while (buf[++i])
+	while (buf[++i] && i <= (1 << 15))
 		text[len + i] = buf[i];
 	text[len + i] = 0;
 	free(buf);
@@ -75,11 +77,12 @@ static void	read_file(int fd, char *text)
 
 char	*get_next_line(int fd)
 {
-	static char	text[1 << 12];
+	static char	text[1 << 15];
 	char		*linestr;
 
+	linestr = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, text, 0) < 0)
-		return (NULL);
+		return (linestr);
 	read_file(fd, text);
 	linestr = get_line(text);
 	clean_text(text);
