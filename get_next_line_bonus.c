@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:59:46 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/07 10:49:41 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/07 11:04:21 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ char	*get_next_line(int fd)
 	char		*linestr;
 
 	linestr = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, list[0], 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0
+		|| read(fd, list[0], 0) < 0
+		|| fd > (1 << 10))
 		return (linestr);
 	read_file(fd, &list[fd]);
 	linestr = get_line(&list[fd]);
