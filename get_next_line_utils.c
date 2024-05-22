@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:17:49 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/22 20:12:49 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/22 22:39:41 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ char	*ft_strdup(const char *s)
 	len = 0;
 	while (s[len])
 		len++;
-	cpy = malloc(len + 1 * sizeof(char));
+	if (!len)
+		return (NULL);
+	cpy = malloc((len + 1) * sizeof(char));
+	if (!cpy)
+		return (NULL);
 	cpy[len] = 0;
 	while (len--)
 		cpy[len] = s[len];
@@ -73,7 +77,6 @@ void	clean_text(char **text)
 {
 	char	*temp;
 	char	*cleaned;
-	int		i;
 
 	if (!*text)
 		return ;
@@ -83,12 +86,12 @@ void	clean_text(char **text)
 	if (*temp == '\n')
 		temp++;
 	cleaned = ft_strdup(temp);
-	if (cleaned)
+	if (!cleaned)
 	{
-		i = -1;
-		while (cleaned[++i])
-			(*text)[i] = cleaned[i];
-		(*text)[i] = 0;
-		free(cleaned);
+		free(*text);
+		*text = NULL;
+		return ;
 	}
+	free(*text);
+	*text = cleaned;
 }

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:59:46 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/22 19:07:39 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/22 22:44:42 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,24 @@ static void	append(char **text, char *buf)
 	int		i;
 
 	if (!buf || !*buf)
-		return (free(*text));
+		return ;
 	len = ft_strlen(*text) + ft_strlen(buf);
 	if (!len)
 		return ;
 	temp = *text;
 	*text = (char *)ft_calloc(len + 1);
 	if (!*text)
-		return (free(temp));
-	len = 0;
-	while (temp && temp[len])
 	{
-		(*text)[len] = temp[len];
-		len++;
+		free(temp);
+		return ;
 	}
+	len = -1;
+	while (++len >= 0 && temp && temp[len])
+		(*text)[len] = temp[len];
 	i = -1;
 	while (buf[++i])
 		(*text)[len + i] = buf[i];
-	return (free(temp));
+	free(temp);
 }
 
 static void	read_file(int fd, char **text)
@@ -68,12 +68,15 @@ static void	read_file(int fd, char **text)
 	nl_bool = 0;
 	while (nl_bool == 0)
 	{
-		buf = ft_calloc(BUFFER_SIZE + 1);
+		buf = (char *)ft_calloc(BUFFER_SIZE + 1);
 		if (!buf)
 			return ;
 		r = read(fd, buf, BUFFER_SIZE);
-		if (!r)
-			return (free(buf));
+		if (r <= 0)
+		{
+			free(buf);
+			return ;
+		}
 		nl_bool = contains_nl(buf);
 		append(text, buf);
 		free(buf);

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:17:49 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/07 10:55:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/22 22:41:49 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,18 @@ int	ft_strlen(char *s)
 	return (len);
 }
 
-void	ft_bzero(void *p, size_t size)
+void	*ft_calloc(size_t size)
 {
 	unsigned char	*a;
+	void			*p;
 
+	p = malloc(size);
+	if (!p)
+		return (NULL);
 	a = p;
 	while (size--)
 		*a++ = 0;
+	return (p);
 }
 
 int	contains_nl(char *s)
@@ -52,10 +57,16 @@ char	*ft_strdup(const char *s)
 	int		len;
 	char	*cpy;
 
+	if (!s)
+		return (NULL);
 	len = 0;
 	while (s[len])
 		len++;
-	cpy = malloc(len + 1);
+	if (!len)
+		return (NULL);
+	cpy = malloc((len + 1) * sizeof(char));
+	if (!cpy)
+		return (NULL);
 	cpy[len] = 0;
 	while (len--)
 		cpy[len] = s[len];
@@ -66,7 +77,6 @@ void	clean_text(char **text)
 {
 	char	*temp;
 	char	*cleaned;
-	int		i;
 
 	if (!*text)
 		return ;
@@ -76,12 +86,12 @@ void	clean_text(char **text)
 	if (*temp == '\n')
 		temp++;
 	cleaned = ft_strdup(temp);
-	if (cleaned)
+	if (!cleaned)
 	{
-		i = -1;
-		while (cleaned[++i])
-			(*text)[i] = cleaned[i];
-		(*text)[i] = 0;
-		free(cleaned);
+		free(*text);
+		*text = NULL;
+		return ;
 	}
+	free(*text);
+	*text = cleaned;
 }
