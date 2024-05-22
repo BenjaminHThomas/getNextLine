@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 15:17:49 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/06 18:55:08 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/22 19:07:13 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,18 @@ int	ft_strlen(char *s)
 	return (len);
 }
 
-void	ft_bzero(void *p, size_t size)
+void	*ft_calloc(size_t size)
 {
 	unsigned char	*a;
+	void			*p;
 
+	p = malloc(size);
+	if (!p)
+		return (NULL);
 	a = p;
 	while (size--)
 		*a++ = 0;
+	return (p);
 }
 
 int	contains_nl(char *s)

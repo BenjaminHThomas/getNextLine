@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 14:59:08 by bthomas           #+#    #+#             */
-/*   Updated: 2024/05/06 14:21:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/05/22 19:08:14 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ char	*get_next_line(int fd);
 void	clean_text(char **text);
 void	ft_bzero(void *p, size_t size);
 int		ft_strlen(char *s);
+void	*ft_calloc(size_t size);
 
 #endif
